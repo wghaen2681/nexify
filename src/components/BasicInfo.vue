@@ -2,18 +2,28 @@
   <div class="[ basicInfo ] [ w-75 mx-auto p-5 rounded-lg bg-white shadow-sm ]">
     <b-container class="buttons_action">
       <b-row>
-        <b-col>
-          <b-button variant="primary shadow-sm">Add</b-button>
+        <b-col class="pl-0 text-left">
+          <b-button variant="primary shadow-sm" @click="add_data()">Add</b-button>
         </b-col>
         <b-col>
-          <b-button variant="success shadow-s">Save</b-button>
+          <b-button variant="success shadow-s" @click="save_data()">Save</b-button>
         </b-col>
-        <b-col>
-          <b-button variant="danger shadow-s">Update</b-button>
+        <b-col class="pr-0 text-right">
+          <b-button variant="danger shadow-s" @click="get_data()">Update</b-button>
         </b-col>
       </b-row>
     </b-container>
-    <b-table class="mt-4" hover :items="items"></b-table>
+    <b-table responsive class="mt-4 pb-4 text-left" :fields="table_fields" :items="data_basicInfo">
+      <template #head(name)="data">
+        <span>{{ data.label }}</span>
+      </template>
+      <template #cell(name)="data"> <!-- #head 代表想要編輯 head 的內容 (name) 代表想要設定的是 name 資料欄位的內容 -->
+        <input class="pl-2" v-model="data.item.Name">
+      </template>
+      <template #cell(address)="data">
+        <input class="pl-2" v-model="data.item.Address">
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -25,21 +35,78 @@ export default {
   },
   data () {
     return {
-      items: [
-        { Name: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        { Name: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        { Name: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        { Name: 38, first_name: 'Jami', last_name: 'Carney' }
-      ]
+      table_fields: [
+        {
+          key: 'Name',
+          thClass: 'border-top-0 border-bottom'
+        },
+        {
+          key: 'DateOfBirth',
+          label: 'Birthday',
+          thClass: 'border-top-0 border-bottom'
+        },
+        {
+          key: 'Salary',
+          thClass: 'border-top-0 border-bottom'
+        },
+        {
+          key: 'Address',
+          thClass: 'border-top-0 border-bottom'
+        }
+      ],
+      data_basicInfo: [],
+      data_add: {
+        display: false,
+        name: '',
+        dateofbirth: '',
+        salary: null,
+        address: ''
+      }
     }
+  },
+  methods: {
+    add_data: function () {
+      if (this.add_data.display) return
+
+      this.data_basicInfo.push({
+        Name: '',
+        DateOfBirth: '2022-04-03T00:00:00',
+        Salary: '77085',
+        Address: ''
+      })
+      this.data_add.display = true
+    },
+    save_data: function () {
+      try {
+        this.$axios
+          .post('http://nexifytw.mynetgear.com:45000/api/Record/SaveRecords', this.data_basicInfo)
+          .then(() => {
+            this.get_data()
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } catch (error) {
+        console.log('儲存資料發生錯誤', error)
+      }
+    },
+    get_data: async function () {
+      try {
+        const { data } = await this.$axios.get('http://nexifytw.mynetgear.com:45000/api/Record/GetRecords')
+
+        this.data_basicInfo = data.Data
+        this.data_add.display = false
+      } catch (error) {
+        console.log('取得資料發生錯誤', error)
+      }
+    }
+  },
+  async mounted () {
+    this.get_data()
   }
-  // mounted () {
-    
-  // }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 h3 {
   margin: 40px 0 0;
