@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <div id="nav">
+  <div id="app" class="bg-light bg-gradient min-vh-100">
+    <div id="nav" class="mb-4">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
@@ -19,6 +19,7 @@
 
 #nav {
   padding: 30px;
+  padding-top: 4.5rem;
 
   a {
     font-weight: bold;
