@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="bg-light bg-gradient min-vh-100">
-    <div id="nav" class="mb-4">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="nav" class="mb-4 d-flex justify-content-md-center">
+      <router-link to="/"><h5>Home</h5></router-link> |
+      <router-link to="/about"><h5>About</h5></router-link>
     </div>
     <router-view/>
   </div>
@@ -18,8 +18,8 @@
 }
 
 #nav {
-  padding: 30px;
-  padding-top: 4.5rem;
+  padding: 35px;
+  padding-top: 80px;
 
   a {
     font-weight: bold;

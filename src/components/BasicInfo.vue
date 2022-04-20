@@ -1,5 +1,5 @@
 <template>
-  <div class="[ basicInfo ] [ w-75 mx-auto p-5 rounded-lg bg-white shadow-sm ]">
+  <div class="[ basicInfo ] [ w-75 mx-auto px-5 pt-5 pb-4 rounded-lg bg-white shadow-sm ]">
     <b-container class="buttons_action">
       <b-row>
         <b-col class="pl-0 text-left">
@@ -13,15 +13,18 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-table responsive class="mt-4 pb-4 text-left" :fields="table_fields" :items="data_basicInfo">
-      <template #head(name)="data">
-        <span>{{ data.label }}</span>
-      </template>
+    <b-table class="mt-4 pb-4 text-left" responsive :fields="table_fields" :items="data_basicInfo">
       <template #cell(name)="data"> <!-- #head 代表想要編輯 head 的內容 (name) 代表想要設定的是 name 資料欄位的內容 -->
-        <input class="pl-2" v-model="data.item.Name">
+        <input class="pl-2" style="height: 37px;" v-model="data.item.Name">
+      </template>
+      <template #cell(DateOfBirth)="data">
+        <b-form-datepicker class="h-100 border-secondary" style="min-width: max-content;" v-model="data.item.DateOfBirth"></b-form-datepicker>
+      </template>
+      <template #cell(Salary)="data">
+        <progress :value="data.item.Salary" :max="table_salary.max"></progress>
       </template>
       <template #cell(address)="data">
-        <input class="pl-2" v-model="data.item.Address">
+        <input class="pl-2" style="height: 37px;" v-model="data.item.Address">
       </template>
     </b-table>
   </div>
@@ -55,6 +58,10 @@ export default {
         }
       ],
       data_basicInfo: [],
+      table_salary: {
+        salary: 0,
+        max: null
+      },
       data_add: {
         display: false,
         name: '',
@@ -96,6 +103,10 @@ export default {
 
         this.data_basicInfo = data.Data
         this.data_add.display = false
+
+        // console.log(this.data_basicInfo)
+        this.table_salary.max = Math.max(...this.data_basicInfo.map(item => item.Salary))
+        console.log(this.table_salary.max)
       } catch (error) {
         console.log('取得資料發生錯誤', error)
       }
