@@ -5,6 +5,8 @@ import './plugins/bootstrap-vue'
 import App from './App.vue'
 import router from './router'
 
+import '@/style/style.css' // 引用自定義的 css 樣式
+
 Vue.config.productionTip = false
 
 new Vue({
