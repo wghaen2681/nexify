@@ -1,11 +1,10 @@
 <template>
   <div class="home">
-    <BasicInfo msg="Welcome to Your Vue.js App"/>
+    <BasicInfo/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import BasicInfo from '@/components/BasicInfo.vue'
 
 export default {
@@ -15,3 +14,9 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.home {
+  padding-top: calc(4vw + 45px);
+}
+</style>
