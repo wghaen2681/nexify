@@ -22,8 +22,8 @@
       </template>
       <template #cell(Salary)="data">
         <div class="[ progress_container ]">
-          <b-progress :value="data.item.Salary" :max="table_salary.max"></b-progress>
-          <div class="[ progress_controller ]" :key="data.index" :style="'left: ' + (data.item.Salary / table_salary.max * 100) + '%'"></div>
+          <b-progress :value="data.item.Salary" max="100000"></b-progress>
+          <div class="[ progress_controller ]" :key="data.index" :style="'left: ' + (data.item.Salary / 100000 * 100) + '%'"></div>
           <span :class="['progress_value', {'d-none': !salary_display[data.index]}]">{{ data.item.Salary }}</span>
         </div>
       </template>
@@ -88,8 +88,9 @@ export default {
     get_data: function () {
       this.axios
         .get('http://nexifytw.mynetgear.com:45000/api/Record/GetRecords')
-        .then(function (data) {
-          this.data_basicInfo = data.data.Data
+        .then(function (res) {
+          console.log(res.data)
+          this.data_basicInfo = res.data.Data
           this.data_basicInfo.forEach(el => {
             el.Salary_Display = false
           })
@@ -194,7 +195,8 @@ The are data without assigning information about ${strAll} please assign them fi
       } else {
         this.axios
           .post('http://nexifytw.mynetgear.com:45000/api/Record/SaveRecords', this.data_basicInfo)
-          .then(() => {
+          .then(res => {
+            console.log(res.data)
             this.get_data()
             this.drag_salary()
           })
@@ -204,7 +206,7 @@ The are data without assigning information about ${strAll} please assign them fi
       }
     },
     change_salary: function (index, data) {
-      const alteration = Math.round(data / 160 * this.table_salary.max)
+      const alteration = Math.round(data / 160 * 100000)
 
       this.data_basicInfo[index].Salary = alteration
     },
