@@ -88,7 +88,7 @@ export default {
     height_table: function () {
       const row = this.$('[role="row"]')
 
-      row.children('td').css('padding-bottom', 0)
+      row.children('td').css('padding-bottom', 20)
 
       setTimeout(function () {
         const bTable = this.$('.b-table')
@@ -123,7 +123,6 @@ export default {
             }
           },
           stop: function () {
-            console.log(this.offsetLeft)
             switch (true) {
               case (this.offsetLeft >= 160):
                 this.style.left = '160px'
@@ -134,49 +133,7 @@ export default {
             }
           }
         })
-
-        // console.log(progressController[0].draggable())
-
-        // progressController.forEach(el => {
-        //   el.draggable({
-        //     axis: 'x', // 限制拖曳僅在 x 軸上
-        //     // create: function () {},
-        //     // start: function () {},
-        //     // drag: function () {},
-        //     stop: function () {
-        //       const posBasicInfo = el.position().left
-
-        //       switch (true) {
-        //         case (posBasicInfo >= 90):
-        //           Element.css({ left: 90 })
-        //           break
-        //         case (posBasicInfo < (-40)):
-        //           el.css({ left: -40 })
-        //           break
-        //       }
-        //     }
-        //   })
-        // })
       }, 500)
-
-      // progressController.draggable({
-      //   axis: 'x', // 限制拖曳僅在 x 軸上
-      //   // create: function () {},
-      //   // start: function () {},
-      //   // drag: function () {},
-      //   stop: function () {
-      //     const posBasicInfo = progressController.position().left
-
-      //     switch (true) {
-      //       case (posBasicInfo >= 90):
-      //         progressController.css({ left: 90 })
-      //         break
-      //       case (posBasicInfo < (-40)):
-      //         progressController.css({ left: -40 })
-      //         break
-      //     }
-      //   }
-      // })
     },
     add_data: function () {
       this.data_basicInfo.push({
@@ -242,10 +199,11 @@ The are data without assigning information about ${strAll} please assign them fi
 
 .progress_container {
   position: relative;
+  width: 160px;
 }
 
 .progress {
-  width: 160px;
+  width: 100%;
   height: 8px;
   border: 1px solid #ccc;
 }
