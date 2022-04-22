@@ -24,6 +24,7 @@
         <div class="[ progress_container ]">
           <b-progress :value="data.item.Salary" :max="table_salary.max"></b-progress>
           <div class="[ progress_controller ]" :key="data.index" :style="'left: ' + (data.item.Salary / table_salary.max * 100) + '%'"></div>
+          <span :class="['progress_value', {'d-none': !salary_display[data.index]}]">{{ data.item.Salary }}</span>
         </div>
       </template>
       <template #cell(address)="data">
@@ -67,6 +68,19 @@ export default {
         dateofbirth: '',
         salary: null,
         address: ''
+      },
+      salary_display: []
+    }
+  },
+  watch: {
+    data_basicInfo: {
+      deep: true,
+      handler: function () {
+        const arrSalaryDisplay = this.data_basicInfo.map(el => {
+          return el.Salary_Display
+        })
+
+        this.salary_display = arrSalaryDisplay
       }
     }
   },
@@ -76,6 +90,9 @@ export default {
         .get('http://nexifytw.mynetgear.com:45000/api/Record/GetRecords')
         .then(function (data) {
           this.data_basicInfo = data.data.Data
+          this.data_basicInfo.forEach(el => {
+            el.Salary_Display = false
+          })
           this.table_salary.max = Math.max(...this.data_basicInfo.map(item => item.Salary))
           this.drag_salary()
         }.bind(this))
@@ -99,7 +116,7 @@ export default {
         if (heightBtable >= 450) return
 
         lastRow.children('td').css('padding-bottom', adjustHeightTable)
-      }.bind(this), 200)
+      }.bind(this), 600)
     },
     drag_salary: function () {
       const $this = this
@@ -108,7 +125,9 @@ export default {
         $this.$('.progress_controller').draggable({
           axis: 'x',
           drag: function () {
-            const index = Array.prototype.indexOf.call(this.closest('tr').parentNode.childNodes, this.closest('tr'))
+            const index = Array.prototype.indexOf.call(this.closest('tr').parentNode.childNodes, this.closest('tr')) - 1
+
+            $this.show_salary(index, true)
 
             switch (true) {
               case (this.offsetLeft >= 160):
@@ -123,12 +142,21 @@ export default {
             }
           },
           stop: function () {
+            const index = Array.prototype.indexOf.call(this.closest('tr').parentNode.childNodes, this.closest('tr')) - 1
+
+            $this.show_salary(index, false)
+
             switch (true) {
               case (this.offsetLeft >= 160):
-                this.style.left = '160px'
+                $this.change_salary(index, 159.9)
+                this.style.left = '159.9px'
+                break
+              case (this.offsetLeft >= 0):
+                $this.change_salary(index, this.offsetLeft + 0.1)
                 break
               case (this.offsetLeft < 0):
-                this.style.left = 0
+                $this.change_salary(index, 0.1)
+                this.style.left = '0.1px'
                 break
             }
           }
@@ -178,7 +206,10 @@ The are data without assigning information about ${strAll} please assign them fi
     change_salary: function (index, data) {
       const alteration = Math.round(data / 160 * this.table_salary.max)
 
-      this.data_basicInfo[index - 1].Salary = alteration
+      this.data_basicInfo[index].Salary = alteration
+    },
+    show_salary: function (index, switcher) {
+      this.data_basicInfo[index].Salary_Display = switcher
     }
   },
   mounted () {
@@ -216,6 +247,14 @@ The are data without assigning information about ${strAll} please assign them fi
   aspect-ratio: 1/1;
   background: #007bff;
   border-radius: 50%;
+}
+
+.progress_value {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 3px);
+  font-size: 0.8rem;
+  transition: 0.3s
 }
 
 .progress-bar {
