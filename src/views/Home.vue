@@ -1,18 +1,22 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BasicInfo/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import BasicInfo from '@/components/BasicInfo.vue'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    BasicInfo
   }
 }
 </script>
+
+<style scope>
+.home {
+  padding-top: calc(4vw + 45px);
+}
+</style>
