@@ -87,7 +87,7 @@ export default {
   methods: {
     get_data: function () {
       this.axios
-        .get('http://nexifytw.mynetgear.com:45000/api/Record/GetRecords')
+        .get(process.env.VUE_APP_API_GET)
         .then(function (res) {
           console.log(res.data)
           this.data_basicInfo = res.data.Data
@@ -175,7 +175,7 @@ export default {
 The are data without assigning information about ${strAll} please assign them first before saving.`)
       } else {
         this.axios
-          .post('http://nexifytw.mynetgear.com:45000/api/Record/SaveRecords', this.data_basicInfo)
+          .post(process.env.VUE_APP_API_POST, this.data_basicInfo)
           .then(res => {
             console.log(res.data)
             this.get_data()
