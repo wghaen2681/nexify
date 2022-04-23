@@ -4,6 +4,7 @@
 ```
 npm install
 ```
++ And Remember To Add The ```.env``` file into the root of this project for this to work as expected.
 
 ### Compiles and hot-reloads for development
 ```
@@ -21,4 +22,5 @@ npm run lint
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
++ See [Configuration Reference](https://cli.vuejs.org/config/).
++ 題目網址: http://nexifytw.mynetgear.com/front-end/
