@@ -100,24 +100,6 @@ export default {
         .catch(error => {
           console.log('取得資料發生錯誤', error)
         })
-
-      this.height_table()
-    },
-    height_table: function () {
-      const row = this.$('[role="row"]')
-
-      row.children('td').css('padding-bottom', 20)
-
-      setTimeout(function () {
-        const bTable = this.$('.b-table')
-        const heightBtable = parseInt(bTable.css('height'))
-        const adjustHeightTable = 450 - heightBtable
-        const lastRow = this.$('[role="row"]').last()
-
-        if (heightBtable >= 450) return
-
-        lastRow.children('td').css('padding-bottom', adjustHeightTable)
-      }.bind(this), 600)
     },
     drag_salary: function () {
       const $this = this
@@ -171,7 +153,6 @@ export default {
         Salary: 0,
         Address: ''
       })
-      this.height_table()
       this.drag_salary()
     },
     save_data: function () {
@@ -224,6 +205,20 @@ The are data without assigning information about ${strAll} please assign them fi
 <style>
 .b-table {
   padding-bottom: 500px;
+  min-height: 450px;
+}
+
+.b-table [role="columnheader"],
+.b-table [role="row"]:not(:last-child) [role="cell"] {
+  height: 80px;
+}
+
+.b-table [role="row"]:last-child [role="cell"] {
+  vertical-align: top;
+}
+
+.b-table [role="row"]:last-child [role="cell"]:nth-child(3) {
+  padding-top: 36px;
 }
 
 .b-datepicker {
