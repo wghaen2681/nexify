@@ -1,5 +1,5 @@
 <template>
-  <div class="[ basicInfo ] [ w-75 mx-auto px-5 pt-5 pb-4 rounded-lg bg-white shadow-sm ]">
+  <div class="[ basicInfo ] [ w-75 mx-auto px-3 px-sm-5 pt-4 pt-sm-5 pb-4 rounded-lg bg-white shadow-sm ]">
     <b-container>
       <b-row>
         <b-col class="pl-0 text-left">
@@ -203,6 +203,20 @@ The are data without assigning information about ${strAll} please assign them fi
 </script>
 
 <style>
+@media only screen and (max-width: 576px) {
+  .home {
+    padding-top: 5vw !important;
+  }
+
+  .basicInfo {
+    width: 90% !important;
+  }
+
+  .basicInfo .container button {
+    width: 95% !important;
+  }
+}
+
 .b-table {
   padding-bottom: 500px;
   min-height: 450px;
